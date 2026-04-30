@@ -1,0 +1,42 @@
+[
+  {
+    "componentId": "POSTGRES_MAIN",
+    "componentType": "RDBMS",
+    "errorCode": "CONN_TIMEOUT",
+    "errorMessage": "Connection pool exhausted after 30s",
+    "latencyMs": 30000,
+    "severity": "CRITICAL"
+  },
+  {
+    "componentId": "POSTGRES_MAIN",
+    "componentType": "RDBMS",
+    "errorCode": "CONN_TIMEOUT",
+    "errorMessage": "Retry attempt 1 failed",
+    "latencyMs": 31000,
+    "severity": "CRITICAL"
+  },
+  {
+    "componentId": "CACHE_CLUSTER_01",
+    "componentType": "CACHE",
+    "errorCode": "CACHE_MISS",
+    "errorMessage": "Redis connection refused on port 6379",
+    "latencyMs": 5000,
+    "severity": "HIGH"
+  },
+  {
+    "componentId": "API_GATEWAY",
+    "componentType": "API",
+    "errorCode": "HTTP_503",
+    "errorMessage": "Service unavailable - upstream RDBMS down",
+    "latencyMs": 0,
+    "severity": "CRITICAL"
+  },
+  {
+    "componentId": "MCP_HOST_01",
+    "componentType": "MCP_HOST",
+    "errorCode": "CONN_REFUSED",
+    "errorMessage": "MCP host unreachable",
+    "latencyMs": 15000,
+    "severity": "HIGH"
+  }
+]
