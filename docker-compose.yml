@@ -1,7 +1,6 @@
 version: '3.9'
 
 services:
-  # ─── Infrastructure ──────────────────────────────────────
   postgres:
     image: postgres:15-alpine
     container_name: ims-postgres
@@ -10,49 +9,26 @@ services:
       POSTGRES_DB: ims
       POSTGRES_USER: ims_user
       POSTGRES_PASSWORD: ims_pass
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ims_user -d ims"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
 
   mongodb:
-    image: mongo:7-jammy
+    image: mongo:7
     container_name: ims-mongo
     restart: unless-stopped
-    ports:
-      - "27017:27017"
     volumes:
       - mongo_data:/data/db
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
 
   redis:
     image: redis:7-alpine
     container_name: ims-redis
     restart: unless-stopped
-    ports:
-      - "6379:6379"
     volumes:
       - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
 
-  # ─── Application ─────────────────────────────────────────
   backend:
     build:
       context: ./backend
-      target: production
     container_name: ims-backend
     restart: unless-stopped
     ports:
@@ -67,12 +43,9 @@ services:
       REDIS_HOST: redis
       CORS_ORIGIN: http://localhost:3000
     depends_on:
-      postgres:
-        condition: service_healthy
-      mongodb:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+      - postgres
+      - mongodb
+      - redis
 
   frontend:
     build: ./frontend
@@ -81,7 +54,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      VITE_API_URL: http://localhost:4000
+      VITE_API_URL: http://backend:4000
     depends_on:
       - backend
 
