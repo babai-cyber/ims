@@ -5,7 +5,7 @@ DOCKER_USER="ramayya325"
 TAG="v1"
 
 # Login (secure way)
-echo "Ramayya@325" | docker login -u "$DOCKER_USER" --password-stdin
+echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 
 # Stop & remove containers
 for c in ims-frontend ims-backend ims-postgres ims-redis ims-mongo; do
