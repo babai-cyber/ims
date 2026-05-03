@@ -58,6 +58,36 @@ services:
     depends_on:
       - backend
 
+  # 🔥 PROMETHEUS
+  prometheus:
+    image: prom/prometheus
+    container_name: ims-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - backend
+
+  # 🔥 GRAFANA
+  grafana:
+    image: grafana/grafana
+    container_name: ims-grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+
+  # 🔥 NODE EXPORTER (EC2 metrics)
+  node-exporter:
+    image: prom/node-exporter
+    container_name: ims-node-exporter
+    restart: unless-stopped
+    ports:
+      - "9100:9100"
+
 volumes:
   postgres_data:
   mongo_data:
