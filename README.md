@@ -140,4 +140,4 @@ Or use the JSON payloads in `seed/simulate-failure.json` with Postman/curl.
 
 ## GitHub Link
 
-**https://github.com/YOUR_USERNAME/ims**
+**https://github.com/babai-cyber/ims**
